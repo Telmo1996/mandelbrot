@@ -124,6 +124,12 @@ if __name__ == '__main__':
                                                  multiplicadorFake, multiplicadorFake))
                     # screen.set_at((Px, height-Py), color)
 
+            pool = Pool(8)
+            result = pool.starmap(iterMandelbrot, filas, 1)     # TODO crear la fila para el pool y colorear todo
+
+            pool.close()
+            pool.join()
+
             if not (cortar or (not recalcular)):        # Linea verde
                 pygame.draw.line(screen, (0, 255, 0), ((Px + 1) * multiplicadorFake, 0),
                                  ((Px + 1) * multiplicadorFake, height * multiplicadorFake))
