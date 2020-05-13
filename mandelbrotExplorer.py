@@ -74,6 +74,8 @@ if __name__ == '__main__':
 
     zoomMulti = 1.1
 
+    multiproc = False
+
     #################################################################
 
     # Iniciar la pantalla
@@ -102,23 +104,51 @@ if __name__ == '__main__':
                     # Traducir el pixel en la pantalla al punto correspondiente
                     x0 = (xScope[1] - xScope[0]) * (Px / width) + xScope[0]
                     y0 = (yScope[1] - yScope[0]) * (Py / height) + yScope[0]
-                    fila.append(((x0, y0), maxIterations))
 
-            if not (cortar or (not recalcular)):        # Linea verde
+                    if multiproc:
+                        fila.append(((x0, y0), maxIterations))
+                    else:
+                        z0 = complex(0, 0)
+                        c = complex(x0, y0)
+
+                        iteration = 0
+                        if (not EnCardioide(x0, y0)) and (not EnCirculo(x0, y0)):
+                            while abs(z0) <= 2 and iteration < maxIterations:
+                                z1 = z0 * z0 + c
+                                z0 = z1
+                                iteration += 1
+
+                            if iteration == maxIterations:
+                                color = colorMandelbrot
+                            else:
+                                color = Colorear(iteration, maxIterations, colorMode)
+
+                        else:
+                            color = colorMandelbrot
+                            iteration = maxIterations
+
+                        pygame.draw.rect(screen, color,
+                                         pygame.Rect(Px * multiplicadorFake, (height - Py) * multiplicadorFake,
+                                                     multiplicadorFake, multiplicadorFake))
+                        # screen.set_at((Px, height-Py), color)
+
+            if not (cortar or (not recalcular)):
+                # Linea verde
                 pygame.draw.line(screen, (0, 255, 0), ((Px + 1) * multiplicadorFake, 0),
                                  ((Px + 1) * multiplicadorFake, height * multiplicadorFake))
 
-                pool = Pool(8)
-                result = pool.starmap(iterMandelbrot, fila, 1)
-                pool.close()
-                pool.join()
+                if multiproc:
+                    pool = Pool(8)
+                    result = pool.starmap(iterMandelbrot, fila, 1)
+                    pool.close()
+                    pool.join()
 
-                py = 1
-                for p in result:
-                    pygame.draw.rect(screen, Colorear(p, maxIterations, colorMode),
-                                     pygame.Rect(Px * multiplicadorFake, (height - py) * multiplicadorFake,
-                                                 multiplicadorFake, multiplicadorFake))
-                    py += 1
+                    py = 1
+                    for p in result:
+                        pygame.draw.rect(screen, Colorear(p, maxIterations, colorMode),
+                                         pygame.Rect(Px * multiplicadorFake, (height - py) * multiplicadorFake,
+                                                     multiplicadorFake, multiplicadorFake))
+                        py += 1
 
             pygame.display.flip()
 
@@ -129,9 +159,11 @@ if __name__ == '__main__':
                     cortar = True
                 if event.type == pygame.KEYDOWN:
                     pulsados = pygame.key.get_pressed()
+
                     if pulsados[pygame.K_SPACE]:
                         cortar = True
                         recalcular = False
+
                     if pulsados[pygame.K_c]:  # Pintar Cruz central
                         pygame.draw.line(screen, (0, 255, 0),
                                          (width * multiplicadorFake / 2 + 10, height * multiplicadorFake / 2),
@@ -140,6 +172,7 @@ if __name__ == '__main__':
                                          (width * multiplicadorFake / 2, height * multiplicadorFake / 2 + 10),
                                          (width * multiplicadorFake / 2, height * multiplicadorFake / 2 - 10), 1)
                         pygame.display.flip()
+
                     if pulsados[pygame.K_RIGHT] or pulsados[pygame.K_d]:
                         cortar = True
                         zoom /= zoomMulti
@@ -150,6 +183,7 @@ if __name__ == '__main__':
                         zoom *= zoomMulti
                         print()
                         print("Zoom: {0}".format(zoom))
+
                     if pulsados[pygame.K_UP] or pulsados[pygame.K_w]:
                         maxIterations += 100
                         print()
@@ -160,6 +194,14 @@ if __name__ == '__main__':
                             maxIterations = 100
                         print()
                         print("MaxIterations: {0}".format(maxIterations))
+
+                    if pulsados[pygame.K_m]:
+                        multiproc = not multiproc
+                        if multiproc:
+                            print("Utilizando multiproccesing")
+                        else:
+                            print("Utilizando un solo core :(")
+
                 mouseClick = pygame.mouse.get_pressed()
                 if sum(mouseClick) > 0:
                     cortar = True
