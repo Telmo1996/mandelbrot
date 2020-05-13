@@ -1,5 +1,3 @@
-import pygame
-import cmath
 from multiprocessing import Pool
 
 
@@ -28,8 +26,11 @@ def Colorear(curIter, maxIter, mode='default'):
         magia = curIter % 255
         return int(20 + magia * 0.2), 255 - magia, int(magia * 0.8)
     elif mode == 'byn':
-        magia = curIter % 255
-        return magia, magia, magia
+        if curIter == maxIter:
+            return 255, 0, 0
+        else:
+            magia = curIter % 255
+            return magia, magia, magia
     else:  # default
         magia = curIter % 255
         return 255 - magia, 255 - magia, 255
@@ -50,6 +51,8 @@ def iterMandelbrot(coord, maxIterations):
 
 
 if __name__ == '__main__':
+    import pygame
+    import cmath
 
     ##############################################################
     # ################### Configuraciones ###################### #
@@ -73,7 +76,6 @@ if __name__ == '__main__':
 
     #################################################################
 
-
     # Iniciar la pantalla
     print("Tamaño: {0}x{1}".format(width, height))
     pygame.init()
@@ -93,49 +95,34 @@ if __name__ == '__main__':
 
         cortar = False
         for Px in range(0, width):
+            fila = []
             for Py in range(0, height):
 
                 if not (cortar or (not recalcular)):
                     # Traducir el pixel en la pantalla al punto correspondiente
                     x0 = (xScope[1] - xScope[0]) * (Px / width) + xScope[0]
                     y0 = (yScope[1] - yScope[0]) * (Py / height) + yScope[0]
-
-                    z0 = complex(0, 0)
-                    c = complex(x0, y0)
-
-                    iteration = 0
-                    if (not EnCardioide(x0, y0)) and (not EnCirculo(x0, y0)):
-                        while abs(z0) <= 2 and iteration < maxIterations:
-                            z1 = z0 * z0 + c
-                            z0 = z1
-                            iteration += 1
-
-                        if iteration == maxIterations:
-                            color = colorMandelbrot
-                        else:
-                            color = Colorear(iteration, maxIterations, colorMode)
-
-                    else:
-                        color = colorMandelbrot
-                        iteration = maxIterations
-
-                    pygame.draw.rect(screen, color,
-                                     pygame.Rect(Px * multiplicadorFake, (height - Py) * multiplicadorFake,
-                                                 multiplicadorFake, multiplicadorFake))
-                    # screen.set_at((Px, height-Py), color)
-
-            pool = Pool(8)
-            result = pool.starmap(iterMandelbrot, filas, 1)     # TODO crear la fila para el pool y colorear todo
-
-            pool.close()
-            pool.join()
+                    fila.append(((x0, y0), maxIterations))
 
             if not (cortar or (not recalcular)):        # Linea verde
                 pygame.draw.line(screen, (0, 255, 0), ((Px + 1) * multiplicadorFake, 0),
                                  ((Px + 1) * multiplicadorFake, height * multiplicadorFake))
+
+                pool = Pool(8)
+                result = pool.starmap(iterMandelbrot, fila, 1)
+                pool.close()
+                pool.join()
+
+                py = 1
+                for p in result:
+                    pygame.draw.rect(screen, Colorear(p, maxIterations, colorMode),
+                                     pygame.Rect(Px * multiplicadorFake, (height - py) * multiplicadorFake,
+                                                 multiplicadorFake, multiplicadorFake))
+                    py += 1
+
             pygame.display.flip()
 
-            # Esperar al SPACE para salir
+            # Control con las teclas
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     recalcular = False
