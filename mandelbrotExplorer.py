@@ -61,22 +61,25 @@ if __name__ == '__main__':
     colorMandelbrot = 255, 0, 0
     colorMode = 'byn'
 
-    multiplicadorFake = 3
+    multiplicadorFake = 4
 
-    multiplicador = 1 / 3
+    multiplicador = 1 / 4
     # width, height = int(1536 * multiplicador), int(864 * multiplicador)       # portatil
     width, height = int(360 * multiplicador), int(640 * multiplicador)      # movil
 
-    puntoCentral = -0.7746806106269039, -0.1374168856037867
-    zoom = 1.506043553756164E-12
+    puntoCentral = -0.749964095004616, 0.009633765472374324
+    zoom = 6.275581773916279e-05
 
-    maxIterations = 400
+    maxIterations = 100000
 
-    zoomMulti = 1.1
+    zoomGrande = 2
+    zoomPeque = 1.1
 
     multiproc = False
 
     #################################################################
+
+    zoomMulti = zoomGrande
 
     # Iniciar la pantalla
     print("Tamaño: {0}x{1}".format(width, height))
@@ -130,7 +133,6 @@ if __name__ == '__main__':
                         pygame.draw.rect(screen, color,
                                          pygame.Rect(Px * multiplicadorFake, (height - Py) * multiplicadorFake,
                                                      multiplicadorFake, multiplicadorFake))
-                        # screen.set_at((Px, height-Py), color)
 
             if not (cortar or (not recalcular)):
                 # Linea verde
@@ -201,6 +203,14 @@ if __name__ == '__main__':
                             print("Utilizando multiproccesing")
                         else:
                             print("Utilizando un solo core :(")
+
+                    if pulsados[pygame.K_z]:
+                        if zoomMulti == zoomGrande:
+                            zoomMulti = zoomPeque
+                            print("Zoom peque: {0}".format(zoomMulti))
+                        else:
+                            zoomMulti = zoomGrande
+                            print("Zoom grande: {0}".format(zoomMulti))
 
                 mouseClick = pygame.mouse.get_pressed()
                 if sum(mouseClick) > 0:
