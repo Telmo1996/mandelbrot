@@ -47,14 +47,15 @@ if __name__ == '__main__':
     multiplicador = 4
     width, height = int(360 * multiplicador), int(640 * multiplicador)
 
-    puntoCentral = -0.7746806106269039, -0.1374168856037867
-    zoom = 1.506043553756164E-12
+    # Pared1M
+    puntoCentral = -0.749964095004616, 0.009633765472374324
+    zoom = 6.275581773916279e-05
 
-    maxIterations = 3000
+    maxIterations = 1000000
 
     numProcesadores = 8
 
-    fileName = 'Isla_m4k'
+    fileName = 'Pared1M'
 
     #################################################################
 

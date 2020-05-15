@@ -22,13 +22,13 @@ def pintarSet():
 # ################### Configuraciones ###################### #
 ##############################################################
 
-# azulBlanco verdeNegro azulVerde
-# chocolate rainbow camelia bnw_stripes
-colorModeNames = ['azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes']
-colorModeNumber = len(colorModeNames) - 1
+# azulBlanco 0  verdeNegro 1  azulVerde 2
+# chocolate 3  rainbow 4  camelia 5  bnw_stripes 6  night 7
+colorModeNames = ['azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night']
+colorModeNumber = 7
 colorMode = colorModeNames[colorModeNumber]
 
-initialOffset = 16.640623586983452
+initialOffset = 0
 offsetIncrement = math.pi / 64
 
 shift = 0
@@ -36,9 +36,9 @@ shiftIncrement = 20
 
 enableVideo = False
 
-scaleFactor = 1
+scaleFactor = 1/4
 
-fileName = 'Isla_m4k'      # Sin .json
+fileName = 'Pared1M'      # Sin .json
 saveExtension = '.png'
 
 #################################################################
