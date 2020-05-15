@@ -41,7 +41,7 @@ def Colorear(iter, maxIter, desfase=0, shift=0, mode='verdeNegro'):
             magia = iter / maxIter
             magiaRad = magia * math.pi * 2
             r = (math.sin(magiaRad + desfase) + 1) / 2 * 255
-            g = (math.sin(magiaRad + desfase * math.pi / 3) + 1) / 2 * 255
+            g = (math.sin(magiaRad + desfase * math.pi) + 1) / 2 * 255
             b = (math.sin(magiaRad + desfase * (- math.pi / 2)) + 1) / 2 * 255
             return r, g, b
 
@@ -66,12 +66,13 @@ def Colorear(iter, maxIter, desfase=0, shift=0, mode='verdeNegro'):
         if iter == maxIter:
             return 0, 0, 0
         else:
-            magia = iter / maxIter
-            magiaRad = magia * math.pi * 2 / 255  # [0, 2pi]
-            r = 0 + ((math.sin(magiaRad + desfase) + 1) / 2 * 255)
-            g = 0 + ((math.sin(magiaRad + desfase) + 1) / 2 * 255)
-            b = 80 + ((math.sin(magiaRad + desfase) + 1) / 2 * 255) / 1.8
-            return r, g, b
+            modulo = 300
+            magia = (iter + shift) % modulo
+            magiaRad = magia * math.pi * 2 / modulo  # [0, 2pi]
+            temp = (math.sin(magiaRad + desfase) + 1)
+            rg = 0 + ((temp*temp) / 4 * 255) / 1.2
+            b = 30 + ((math.sin(magiaRad + desfase) + 1) / 2 * 255) / 1.2
+            return rg, rg, b
 
     else:
         return 0, 0, 0

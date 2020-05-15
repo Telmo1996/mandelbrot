@@ -28,17 +28,17 @@ colorModeNames = ['azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow
 colorModeNumber = 7
 colorMode = colorModeNames[colorModeNumber]
 
-initialOffset = 0
+initialOffset = 0.6381360077604268
 offsetIncrement = math.pi / 64
 
-shift = 0
+shift = 100
 shiftIncrement = 20
 
 enableVideo = False
 
-scaleFactor = 1/4
+scaleFactor = 1
 
-fileName = 'Pared1M'      # Sin .json
+fileName = '1Json4k'      # Sin .json
 saveExtension = '.png'
 
 #################################################################
