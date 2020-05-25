@@ -30,13 +30,14 @@ def pintar():
 # ################### Configuraciones ###################### #
 ##############################################################
 
-# azulBlanco verdeNegro azulVerde
-# chocolate rainbow camelia night
-
-colorMode = 'night'
+# azulBlanco 0  verdeNegro 1  azulVerde 2
+# chocolate 3  rainbow 4  camelia 5  bnw_stripes 6  night 7
+colorModeNames = ['azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night']
+colorModeNumber = 7
+colorMode = colorModeNames[colorModeNumber]
 
 width, height = 255 * 3, 100 * 2
-maxIterations = 1000
+maxIterations = width - 1
 initialOffset = math.pi * 0
 shift = 0
 
@@ -89,3 +90,21 @@ while esperando:
                 initialOffset -= offsetIncrement
                 animar = False
                 pintar()
+            if pulsados[pygame.K_w]:
+                colorModeNumber += 1
+                if colorModeNumber >= len(colorModeNames):
+                    colorModeNumber = 0
+                colorMode = colorModeNames[colorModeNumber]
+                pintar()
+                print("Color Mode: {0}".format(colorMode))
+            if pulsados[pygame.K_s]:
+                colorModeNumber -= 1
+                if colorModeNumber < 0:
+                    colorModeNumber = len(colorModeNames) - 1
+                colorMode = colorModeNames[colorModeNumber]
+                pintar()
+                print("Color Mode: {0}".format(colorMode))
+
+print()
+print("Offset: {0}".format(initialOffset))
+print("Shift: {0}".format(shift))

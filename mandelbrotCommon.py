@@ -34,7 +34,6 @@ def Colorear(iter, maxIter, desfase=0, shift=0, mode='verdeNegro'):
             return r, g, b
 
     elif mode == 'rainbow':
-        # 4.712388980384692 azulOscuro negro blanco
         if iter == maxIter:
             return 0, 0, 0
         else:
@@ -42,7 +41,7 @@ def Colorear(iter, maxIter, desfase=0, shift=0, mode='verdeNegro'):
             magiaRad = magia * math.pi * 2
             r = (math.sin(magiaRad + desfase) + 1) / 2 * 255
             g = (math.sin(magiaRad + desfase * math.pi) + 1) / 2 * 255
-            b = (math.sin(magiaRad + desfase * (- math.pi / 2)) + 1) / 2 * 255
+            b = (math.sin(magiaRad + desfase * (math.pi / 2)) + 1) / 2 * 255
             return r, g, b
 
     elif mode == 'camelia':
