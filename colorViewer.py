@@ -32,8 +32,11 @@ def pintar():
 
 # azulBlanco 0  verdeNegro 1  azulVerde 2
 # chocolate 3  rainbow 4  camelia 5  bnw_stripes 6  night 7
-colorModeNames = ['azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night']
-colorModeNumber = 7
+# nightCrawler 8
+colorModeNames = [
+    'azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night', 'nightCrawler'
+]
+colorModeNumber = 8
 colorMode = colorModeNames[colorModeNumber]
 
 width, height = 255 * 3, 100 * 2

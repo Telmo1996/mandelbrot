@@ -24,14 +24,17 @@ def pintarSet():
 
 # azulBlanco 0  verdeNegro 1  azulVerde 2
 # chocolate 3  rainbow 4  camelia 5  bnw_stripes 6  night 7
-colorModeNames = ['azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night']
-colorModeNumber = 7
+# nightCrawler 8
+colorModeNames = [
+    'azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night', 'nightCrawler'
+]
+colorModeNumber = 8
 colorMode = colorModeNames[colorModeNumber]
 
-initialOffset = 0.6381360077604268
+initialOffset = -0.2945243112740431
 offsetIncrement = math.pi / 64
 
-shift = 100
+shift = 60
 shiftIncrement = 20
 
 enableVideo = False

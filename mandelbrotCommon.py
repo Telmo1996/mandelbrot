@@ -73,5 +73,19 @@ def Colorear(iter, maxIter, desfase=0, shift=0, mode='verdeNegro'):
             b = 30 + ((math.sin(magiaRad + desfase) + 1) / 2 * 255) / 1.2
             return rg, rg, b
 
+    elif mode == 'nightCrawler':
+        if iter == maxIter:
+            return 0, 0, 0
+        else:
+            modulo = 300
+            magia = (iter + shift) % modulo
+            magiaRad = magia * math.pi * 2 / modulo  # [0, 2pi]
+            temp = (math.cos(magiaRad + desfase) + 1)
+            drop = (temp**8 / 2**8)*255
+            r = 0 + ((temp**2) / 4 * 255) / 1.2
+            g = 0 + ((temp**2) / 4 * 255) / 1.2 - drop/1.2
+            b = 30 + ((math.cos(magiaRad + desfase) + 1) / 2 * 255) / 1.2 - drop/1.05
+            return r, g, b
+
     else:
         return 0, 0, 0
