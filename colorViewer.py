@@ -13,9 +13,9 @@ def pintar():
         color = Colorear(i, maxIterations, initialOffset, shift, colorMode)
         pygame.draw.line(screen, color, (i, 0), (i, height/2), 1)
 
-        puntosB.append((i, (height / 2 + height / 2 * (1 - color[2] / 255))))
-        puntosG.append((i, (height / 2 + height / 2 * (1 - color[1] / 255))))
-        puntosR.append((i, (height / 2 + height / 2 * (1 - color[0] / 255))))
+        puntosB.append((i, (height / 2 + height / 2 * (1 - color[2] / 255))-1))
+        puntosG.append((i, (height / 2 + height / 2 * (1 - color[1] / 255))-1))
+        puntosR.append((i, (height / 2 + height / 2 * (1 - color[0] / 255))-1))
 
     pygame.draw.lines(screen, (0, 0, 255), False, puntosB, 2)
     pygame.draw.lines(screen, (0, 255, 0), False, puntosG, 2)
@@ -39,7 +39,7 @@ colorModeNames = [
 colorModeNumber = 8
 colorMode = colorModeNames[colorModeNumber]
 
-width, height = 255 * 3, 100 * 2
+width, height = 255 * 3, 300
 maxIterations = width - 1
 initialOffset = math.pi * 0
 shift = 0
