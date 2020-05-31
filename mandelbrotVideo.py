@@ -30,23 +30,23 @@ def pintarSet():
 colorMode = 'rainbow'
 
 initialOffset = math.pi
-offsetIncrement = math.pi / 64
+offsetIncrement = math.pi / (64*16)
 
 shift = 0
 
 scaleFactor = 1/4
 
-fps = 20
-numFrames = 128 * 10
+fps = 24
+numFrames = 60*20
 
-generarSoloVideo = False    # No volver a generar las imagenes
+generarSoloVideo = True    # No volver a generar las imagenes
 
 # Read from
 loadDirectory = 'C:\\Users\\tferc\\Desktop\\Mandelbrot\\Json'
-fileName = '1Json4k.json'
+fileName = 'Caracolas4k.json'
 
 # Write to
-videoName = '1_rainbow_1k'  # Sin extension
+videoName = 'Caracolas4k_inRainbowsV2_longV2'  # Sin extension
 saveDirectory = 'C:\\Users\\tferc\\Desktop\\Mandelbrot\\Videos\\'
 
 #################################################################

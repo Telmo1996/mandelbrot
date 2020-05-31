@@ -41,7 +41,7 @@ enableVideo = False
 
 scaleFactor = 1
 
-fileName = '1Json4k'      # Sin .json
+fileName = 'Caracolas4k'      # Sin .json
 saveExtension = '.png'
 
 #################################################################
@@ -80,7 +80,6 @@ print("Tamaño reescalado: {0} x {1}".format(scaledWidth, scaledHeight))
 pygame.init()
 
 screen = pygame.display.set_mode((scaledWidth, scaledHeight))
-# screen = pygame.display.set_mode((width, height))
 bg = 50, 25, 25
 screen.fill(bg)
 pygame.display.flip()

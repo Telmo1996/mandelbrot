@@ -39,7 +39,7 @@ def Colorear(iter, maxIter, desfase=0, shift=0, mode='verdeNegro'):
         if iter == maxIter:
             r, g, b = 0, 0, 0
         else:
-            magia = iter / maxIter
+            magia = iter / maxIter * 5
             magiaRad = magia * math.pi * 2
             r = (math.sin(magiaRad + desfase) + 1) / 2 * 255
             g = (math.sin(magiaRad + desfase * math.pi) + 1) / 2 * 255

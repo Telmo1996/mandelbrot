@@ -36,10 +36,10 @@ def pintar():
 colorModeNames = [
     'azulBlanco', 'verdeNegro', 'azulVerde', 'chocolate', 'rainbow', 'camelia', 'bnw_stripes', 'night', 'nightCrawler'
 ]
-colorModeNumber = 8
+colorModeNumber = 4
 colorMode = colorModeNames[colorModeNumber]
 
-width, height = 255 * 3, 300
+width, height = 255*3, 300
 maxIterations = width - 1
 initialOffset = math.pi * 0
 shift = 0
