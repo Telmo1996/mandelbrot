@@ -7,9 +7,9 @@ import pygame
 
 height, width = 700, 1200
 
-significantPixels = 8       # Number of pixels to ignore in determining the band
+significantPixels = 0      # Number of pixels to ignore in determining the band
 
-fileName = 'Pared1M'      # Sin .json
+fileName = 'Remolino12_4k'      # Sin .json
 
 loadDirectory = 'C:\\Users\\tferc\\Desktop\\Mandelbrot\\Json'
 
@@ -29,9 +29,10 @@ arrayIter = [0] * width
 trueMaxIter = 1
 for x in range(0, tamanoX):
     for y in range(0, tamanoY):
-        if json["data"][x][y] > trueMaxIter and json["data"][x][y] != maxIter:
-            trueMaxIter = json["data"][x][y]
-        arrayIter[int(json["data"][x][y]/maxIter*width) - 1] += 1
+        curIter = json["data"][x][y]
+        if curIter > trueMaxIter and curIter != maxIter:
+            trueMaxIter = curIter
+        arrayIter[int(curIter/maxIter*width) - 1] += 1
 
 print()
 print("Nombre: {0}".format(fileName))
@@ -54,7 +55,7 @@ pygame.display.set_caption('Json Analyser')
 puntos = []
 posHighestIter = 0
 posFirstNonZero = 0
-posLastNonZero = 0
+posLastNonZero = width - 2
 onlyZerosFirst = True
 onlyZerosLast = True
 for i in range(0, width):
@@ -66,9 +67,10 @@ for i in range(0, width):
     elif arrayIter[i] > significantPixels:
         onlyZerosFirst = False
 
-    if arrayIter[width - i - 1] <= significantPixels and onlyZerosLast:
-        posLastNonZero = width - i - 2
-    elif arrayIter[width - i - 1] > significantPixels:
+for i in range(width - 2, 0, -1):
+    if arrayIter[i] <= significantPixels and onlyZerosLast:
+        posLastNonZero = i + 1
+    elif arrayIter[i] > significantPixels:
         onlyZerosLast = False
 
 # print(posFirstNonZero, posLastNonZero, arrayIter[posLastNonZero])
