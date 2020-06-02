@@ -6,8 +6,8 @@ def Pintar():
     # Pintar
 
     # Zonas claras
-    pygame.draw.rect(screen, (100, 80, 80), ((0, 0), (posFirstNonZero, height)))
-    pygame.draw.rect(screen, (100, 80, 80), ((posLastNonZero, 0), (width, height)))
+    pygame.draw.rect(screen, (100, 80, 80), ((0, 0), (posFirstNonZero/factorReducc, height)))
+    pygame.draw.rect(screen, (100, 80, 80), ((posLastNonZero/factorReducc, 0), (width, height)))
 
     # Lineas 10%
     for i in range(1, 10):
@@ -49,8 +49,13 @@ tamanoX = json["info"]["tamano"]["x"]
 tamanoY = json["info"]["tamano"]["y"]
 maxIter = json["info"]["maxIter"]
 
-# TODO REWORK TIME
-arrayIter = [0] * width
+if width > maxIter:
+    width = maxIter
+    print("Ancho ajustado a {0}".format(width))
+factorReducc = maxIter/width
+
+# arrayIter[int(curIter/maxIter*width) - 1] += 1
+arrayIter = [0] * (maxIter+1)
 
 trueMaxIter = 1
 for x in range(0, tamanoX):
@@ -58,7 +63,7 @@ for x in range(0, tamanoX):
         curIter = json["data"][x][y]
         if curIter > trueMaxIter and curIter != maxIter:
             trueMaxIter = curIter
-        arrayIter[int(curIter/maxIter*width) - 1] += 1
+        arrayIter[curIter] += 1
 
 print()
 print("Nombre: {0}".format(fileName))
@@ -77,13 +82,13 @@ screen.fill(bg)
 pygame.display.flip()
 pygame.display.set_caption('Json Analyser: {0}'.format(fileName))
 
-puntos = []     # TODO REWORK TIME
+puntos = []
 posHighestIter = 0
 posFirstNonZero = 0
 posLastNonZero = width - 2
 onlyZerosFirst = True
 onlyZerosLast = True
-for i in range(0, width):
+for i in range(0, maxIter):
     if arrayIter[i] > arrayIter[posHighestIter]:
         posHighestIter = i
 
@@ -92,7 +97,7 @@ for i in range(0, width):
     elif arrayIter[i] > significantPixels:
         onlyZerosFirst = False
 
-for i in range(width - 2, 0, -1):
+for i in range(maxIter - 2, 0, -1):
     if arrayIter[i] <= significantPixels and onlyZerosLast:
         posLastNonZero = i + 1
     elif arrayIter[i] > significantPixels:
@@ -101,13 +106,18 @@ for i in range(width - 2, 0, -1):
 # print(posFirstNonZero, posLastNonZero, arrayIter[posLastNonZero])
 
 for i in range(0, width):
-    puntos.append((i, height - (height * arrayIter[i] / arrayIter[posHighestIter]) - 1))
-
+    sumMedia = 0
+    divMedia = 0
+    for j in (range(int(i*factorReducc), int((i+1)*factorReducc))):
+        sumMedia += arrayIter[j]
+        divMedia += 1
+    media = sumMedia / divMedia
+    puntos.append((i, height - (height * (sumMedia/divMedia) / arrayIter[posHighestIter]) - 1))
 
 Pintar()
 
 
-# print(arrayIter)
+print(arrayIter)
 
 # Esperar al SPACE para salir
 esperando = True
